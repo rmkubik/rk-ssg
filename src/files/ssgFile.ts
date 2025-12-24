@@ -2,9 +2,10 @@ import fs from "fs/promises";
 import { FileSource } from "./fileSource";
 import path from "path";
 import fsExtra from "fs-extra";
+import { FileTransformations } from "../transformers/fileTransformations";
 
 export class SsgFile {
-  transformations: Map<string, string> = new Map();
+  transformations: FileTransformations = {};
 
   constructor(public source: FileSource) {}
 

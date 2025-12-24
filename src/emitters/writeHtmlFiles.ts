@@ -9,7 +9,7 @@ export class WriteHtmlFiles extends Emitter {
   }
 
   filter(file: SsgFile): boolean {
-    return !!file.transformations.get("htmlContent");
+    return !!file.transformations.htmlContent;
   }
 
   emit(files: SsgFile[]): void {
@@ -22,7 +22,7 @@ export class WriteHtmlFiles extends Emitter {
             ".html"
           )
         ),
-        file.transformations.get("htmlContent")
+        file.transformations.htmlContent
       )
     );
   }
