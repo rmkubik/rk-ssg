@@ -3,6 +3,7 @@ import through2 from "through2";
 import micromatch from "micromatch";
 import { SsgFile } from "../files/ssgFile";
 import { FileSource } from "../files/fileSource";
+import { FileSourceOrigin } from "../files/fileSourceOrigin";
 
 const excludedGlobsFilter = (excludedGlobs: string[]) =>
   through2.obj(function (item, enc, next) {
@@ -25,7 +26,11 @@ export async function crawlDirectory({
       .on("readable", async function (this: Walker) {
         const item = this.read();
         if (!item) return;
-        paths.push(new SsgFile(item.path, new FileSource(directory)));
+        paths.push(
+          new SsgFile(
+            new FileSource(item.path, new FileSourceOrigin(directory))
+          )
+        );
       })
       .on("error", (err: Error, item: Item) => {
         reject(err);

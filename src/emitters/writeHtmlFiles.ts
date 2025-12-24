@@ -17,7 +17,10 @@ export class WriteHtmlFiles extends Emitter {
       file.copyTo(
         path.join(
           this.target,
-          file.pathRelativeToSource.replace(file.extension, ".html")
+          file.source.pathRelativeToOrigin.replace(
+            file.source.extension,
+            ".html"
+          )
         ),
         file.transformations.get("htmlContent")
       )

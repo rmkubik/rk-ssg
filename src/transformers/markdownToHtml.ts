@@ -26,12 +26,12 @@ export class MarkdownToHtml extends Transformer {
   }
 
   filter(file: SsgFile): boolean {
-    return file.extension === ".md";
+    return file.source.extension === ".md";
   }
 
   async transform(files: SsgFile[]): Promise<void> {
     const promises = files.map(async (file) => {
-      const contents = await file.read();
+      const contents = await file.source.read();
       const parsed = await this.processor.process(contents);
       file.transformations.set("htmlContent", parsed.toString());
     });
