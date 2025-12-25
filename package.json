@@ -28,9 +28,12 @@
     "mdast": "^2.3.2",
     "micromatch": "^4.0.8",
     "rehype-stringify": "^10.0.1",
+    "remark-frontmatter": "^5.0.0",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
     "through2": "^4.0.2",
-    "unified": "^11.0.5"
+    "unified": "^11.0.5",
+    "unist": "^0.0.1",
+    "vfile-matter": "^5.0.1"
   }
 }
