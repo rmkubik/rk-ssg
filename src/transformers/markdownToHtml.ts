@@ -40,7 +40,6 @@ export class MarkdownToHtml extends Transformer {
     const promises = files.map(async (file) => {
       const contents = await file.source.read();
       const parsed = await this.processor.process(contents);
-      console.log({ parsed }, parsed.data.matter);
       file.transformations.htmlContent = parsed.toString();
     });
 

@@ -3,7 +3,7 @@ import { SsgFile } from "../files/ssgFile";
 import { Emitter } from "./emitter";
 import micromatch from "micromatch";
 
-export class WriteHtmlFiles extends Emitter {
+export class WriteHtmlContentFiles extends Emitter {
   constructor(private target: string) {
     super();
   }

@@ -22,6 +22,7 @@
   "dependencies": {
     "@types/hast": "^3.0.4",
     "cmd-ts": "^0.14.3",
+    "eta": "^4.5.0",
     "fs-extra": "^11.3.3",
     "hast": "^0.0.2",
     "klaw": "^4.1.0",
