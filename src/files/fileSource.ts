@@ -1,7 +1,6 @@
 import fs from "fs/promises";
 import { FileSourceOrigin } from "./fileSourceOrigin";
 import path from "path";
-import fsExtra from "fs-extra";
 
 export class FileSource {
   constructor(public absolutePath: string, public origin: FileSourceOrigin) {}
@@ -16,5 +15,9 @@ export class FileSource {
 
   async read(): Promise<string> {
     return await fs.readFile(this.absolutePath, "utf8");
+  }
+
+  get directory(): string {
+    return path.dirname(this.absolutePath);
   }
 }

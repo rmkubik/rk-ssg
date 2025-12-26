@@ -1,0 +1,13 @@
+<html>
+  <body>
+    <main>
+      <article>
+        <header>
+          <h1><%= it.matter.title %></h1>
+          <span><%= it.matter.publishedAt %></span>
+        </header>
+        <%= it.htmlContent %>
+      </article>
+    </main>
+  </body>
+</html>

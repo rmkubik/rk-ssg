@@ -1,7 +1,7 @@
+export type FrontMatter = Record<string, unknown>;
+
 export class FileTransformations {
   htmlContent?: string;
-
-  hasBeenTransformed(): boolean {
-    return !!this.htmlContent;
-  }
+  matter?: FrontMatter;
+  etaTemplate?: string;
 }

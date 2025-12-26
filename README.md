@@ -31,3 +31,34 @@ API
 
 - rk-ssg build <target_dir>
 - rk-ssg serve <target_dir>
+
+Other features:
+
+- I want to have markdown files
+- They reference images in a folder next to them
+- They are assigned to an eta template
+- I can create an index.eta that also can consume the list of markdown files
+
+Next.js specifies templates like so:
+
+```
+/blog
+  [slug].js
+  entry1.md
+  entry2.md
+  entry3.md
+```
+
+My format:
+
+```
+/blog
+  /post1
+    index.md
+    image.png
+  post2.md
+  _template.eta
+```
+
+/blog/post1
+/blog/post2

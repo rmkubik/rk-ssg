@@ -8,6 +8,7 @@ import * as Mdast from "mdast";
 import * as Hast from "hast";
 import remarkFrontmatter from "remark-frontmatter";
 import parseMarkdownYamlFrontmatterPlugin from "../unified/parseMarkdownYamlFrontmatterPlugin";
+import { FrontMatter } from "./fileTransformations";
 
 export class MarkdownToHtml extends Transformer {
   private processor: Processor<
@@ -41,6 +42,7 @@ export class MarkdownToHtml extends Transformer {
       const contents = await file.source.read();
       const parsed = await this.processor.process(contents);
       file.transformations.htmlContent = parsed.toString();
+      file.transformations.matter = parsed.data.matter as FrontMatter;
     });
 
     await Promise.all(promises);
