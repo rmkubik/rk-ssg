@@ -4,4 +4,5 @@ export class FileTransformations {
   htmlContent?: string;
   matter?: FrontMatter;
   etaTemplate?: string;
+  baseName?: string;
 }

@@ -15,13 +15,7 @@ export class WriteHtmlContentFiles extends Emitter {
   emit(files: SsgFile[]): void {
     files.map((file) =>
       file.copyTo(
-        path.join(
-          this.target,
-          file.source.pathRelativeToOrigin.replace(
-            file.source.extension,
-            ".html"
-          )
-        ),
+        path.join(this.target, file.outputPath),
         file.transformations.htmlContent
       )
     );

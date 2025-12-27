@@ -4,7 +4,7 @@ publishedAt: 2025-12-25
 tags: test
 ---
 
-What's up everybody? 2
+## What's up everybody? 2
 
 This is a cool markdown post. 2
 

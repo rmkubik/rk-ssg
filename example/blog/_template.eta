@@ -6,7 +6,7 @@
           <h1><%= it.matter.title %></h1>
           <span><%= it.matter.publishedAt %></span>
         </header>
-        <%= it.htmlContent %>
+        <%~ it.htmlContent %>
       </article>
     </main>
   </body>

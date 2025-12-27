@@ -20,4 +20,9 @@ export class FileSource {
   get directory(): string {
     return path.dirname(this.absolutePath);
   }
+
+  get basename(): string {
+    // Provide whatever extname is to basename() so that any extension is removed
+    return path.basename(this.absolutePath, path.extname(this.absolutePath));
+  }
 }

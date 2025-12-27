@@ -1,5 +1,6 @@
 import { Emitter } from "../emitters/emitter";
 import { SsgFile } from "../files/ssgFile";
+import { log } from "../functional/log";
 import { Sourcer } from "../sourcers/sourcer";
 import { Transformer } from "../transformers/transformer";
 
@@ -28,6 +29,14 @@ export class Pipeline {
       const filteredFiles = files.filter((file) => emitter.filter(file));
       await emitter.emit(filteredFiles);
       return files;
+    });
+    return this;
+  }
+
+  log(): Pipeline {
+    this.items.push((files: SsgFile[]) => {
+      log(files);
+      return Promise.resolve(files);
     });
     return this;
   }

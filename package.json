@@ -6,7 +6,8 @@
   "scripts": {
     "start": "bun src/index.ts",
     "build:example": "npm start build example",
-    "build:clean": "rm -rf dist"
+    "build:clean": "rm -rf dist",
+    "build:serve": "npx http-server dist -so"
   },
   "author": "",
   "license": "ISC",
