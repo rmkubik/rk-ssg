@@ -9,6 +9,7 @@ import * as Hast from "hast";
 import remarkFrontmatter from "remark-frontmatter";
 import parseMarkdownYamlFrontmatterPlugin from "../unified/parseMarkdownYamlFrontmatterPlugin";
 import { FrontMatter } from "./fileTransformations";
+import logPlugin from "../unified/log";
 
 export class MarkdownToHtml extends Transformer {
   private processor: Processor<
@@ -29,8 +30,17 @@ export class MarkdownToHtml extends Transformer {
       // you can/need to specify yaml/toml at all for this case?
       .use(remarkFrontmatter, ["yaml", "toml"])
       .use(parseMarkdownYamlFrontmatterPlugin)
-      .use(remarkRehype, { allowDangerousHtml: true })
-      .use(rehypeStringify);
+      // It sounds like we may want to use rehype-raw and then rehype-sanitize
+      // instead of allowDangerousHtml. We trust all the HTML I've authored, so
+      // that safety angle is fine. It sounds like maybe rehype-raw lets plugins
+      // continue to use the HTML embedded in a markdown document as an AST though.
+      // we might have use for that in the future.
+      .use(remarkRehype, {
+        allowDangerousHtml: true,
+      })
+      .use(rehypeStringify, {
+        allowDangerousHtml: true,
+      });
   }
 
   filter(file: SsgFile): boolean {

@@ -62,3 +62,8 @@ My format:
 
 /blog/post1
 /blog/post2
+
+We should "prettify" the output HTML:
+
+- I would like it to be nicely indented
+- Possibly we should be minifying it instead...

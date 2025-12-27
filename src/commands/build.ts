@@ -9,6 +9,7 @@ import { FindEtaTemplate } from "../transformers/findEtaTemplate";
 import { EtaTemplatedToHtml } from "../transformers/etaTemplatedToHtml";
 import { Pipeline } from "../pipeline/pipeline";
 import { UseDirectoryAsNameForIndex } from "../transformers/useDirectoryAsNameForIndex";
+import { ProcessHtmlContentAsEtaTemplate } from "../transformers/processHtmlContentAsEtaTemplate";
 
 export const build = command({
   name: "build",
@@ -21,8 +22,12 @@ export const build = command({
   handler: async ({ targetDirectory }) => {
     const pipeline = new Pipeline()
       .source(new DirectoryCrawler({ directory: targetDirectory }))
+      // I'm not fully sure if it is more appropriate to just leave /post/index.html
+      // files like this or collapse them into /post.html... I guess it will depend on
+      // whatever server I'm hosting the files on?
       // .transform(new UseDirectoryAsNameForIndex())
       .transform(new MarkdownToHtml())
+      .transform(new ProcessHtmlContentAsEtaTemplate())
       .transform(new EtaToHtml())
       .transform(new FindEtaTemplate())
       .transform(new EtaTemplatedToHtml())

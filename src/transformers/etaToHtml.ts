@@ -7,16 +7,17 @@ export class EtaToHtml extends Transformer {
 
   constructor() {
     super();
+    /**
+     * TODO:
+     * We may want to coordinate settings between this Eta instance
+     * and the one in processHtmlContentAsEtaTemplate.
+     */
     this.eta = new Eta();
   }
 
   filter(file: SsgFile): boolean {
     return file.source.extension === ".eta";
   }
-
-  // - pull _template.eta from same directory as this file
-  // - add htmlContent to render
-  // - add matter to render
 
   async transform(files: SsgFile[]): Promise<void> {
     const promises = files.map(async (file) => {
