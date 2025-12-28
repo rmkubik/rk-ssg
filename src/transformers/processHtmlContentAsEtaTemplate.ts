@@ -1,6 +1,7 @@
 import { Eta } from "eta";
 import { SsgFile } from "../files/ssgFile";
 import { Transformer } from "./transformer";
+import { PipelineContext } from "../pipeline/pipelineContext";
 
 export class ProcessHtmlContentAsEtaTemplate extends Transformer {
   private eta: Eta;
@@ -27,7 +28,7 @@ export class ProcessHtmlContentAsEtaTemplate extends Transformer {
     return !!file.transformations.htmlContent;
   }
 
-  async transform(files: SsgFile[]): Promise<void> {
+  async transform(files: SsgFile[], context: PipelineContext): Promise<void> {
     const promises = files.map(async (file) => {
       /**
        * TODO:
@@ -44,6 +45,7 @@ export class ProcessHtmlContentAsEtaTemplate extends Transformer {
         file.transformations.htmlContent,
         {
           matter: file.transformations.matter ?? {},
+          context,
         }
       );
       file.transformations.htmlContent = parsed.toString();

@@ -1,0 +1,6 @@
+<html>
+  <body>
+    <h1>Blog <%= it.name %></h1>
+    <%= it.context.allSlugs %>
+  </body>
+</html>

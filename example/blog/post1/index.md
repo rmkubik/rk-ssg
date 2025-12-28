@@ -13,3 +13,5 @@ It would be cool to have <custom-element>custom content</custom-element>.
 <span style="color: red;">html passthrough</span>
 
 And probably eta.js here as well: {{= it.name }}
+
+![image](./image.png)

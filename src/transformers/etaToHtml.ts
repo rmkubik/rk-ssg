@@ -1,6 +1,7 @@
 import { Eta } from "eta";
 import { SsgFile } from "../files/ssgFile";
 import { Transformer } from "./transformer";
+import { PipelineContext } from "../pipeline/pipelineContext";
 
 export class EtaToHtml extends Transformer {
   private eta: Eta;
@@ -19,12 +20,13 @@ export class EtaToHtml extends Transformer {
     return file.source.extension === ".eta";
   }
 
-  async transform(files: SsgFile[]): Promise<void> {
+  async transform(files: SsgFile[], context: PipelineContext): Promise<void> {
     const promises = files.map(async (file) => {
       const contents = await file.source.read();
       const parsed = await this.eta.renderStringAsync(contents, {
         matter: file.transformations.matter ?? {},
         htmlContent: file.transformations.htmlContent,
+        context,
       });
       file.transformations.htmlContent = parsed.toString();
     });

@@ -11,7 +11,19 @@ export class SsgFile {
   }
 
   async copyTo(target: string, content?: string): Promise<void> {
-    const finalContent = content ?? (await this.source.read());
+    /**
+     * TODO:
+     * This is maybe not the place that I should be checking doNotEmit.
+     *
+     * I think maybe copyTo could become emit?
+     *
+     * I'm not sure exactly... Right now, copyTo() requires callsites
+     * to provide file.outputPath to this function so emission works as
+     * expected. That seems silly.
+     */
+    if (this.transformations.doNotEmit) return;
+
+    const finalContent = content ?? (await this.source.readBuffer());
     await fsExtra.outputFile(target, finalContent);
   }
 

@@ -9,4 +9,5 @@ export class FileTransformations {
   baseName?: string;
   // Override default outputPath, relative to origin
   outputDirPath?: string;
+  doNotEmit?: boolean;
 }

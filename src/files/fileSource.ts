@@ -21,6 +21,10 @@ export class FileSource {
     return await fs.readFile(this.absolutePath, "utf8");
   }
 
+  async readBuffer(): Promise<Buffer> {
+    return await fs.readFile(this.absolutePath);
+  }
+
   get directory(): string {
     return path.dirname(this.absolutePath);
   }

@@ -1,0 +1,6 @@
+<html>
+  <body>
+    <h1>Root <%= it.name %></h1>
+    <a href="/blog">Blog</a>
+  </body>
+</html>

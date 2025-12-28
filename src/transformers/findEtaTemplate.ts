@@ -12,6 +12,10 @@ export class FindEtaTemplate extends Transformer {
 
   async transform(files: SsgFile[]): Promise<void> {
     const promises = files.map(async (file) => {
+      // Eta files don't use templates in this way. They can manually
+      // include any templates they need in their own specification.
+      if (file.source.extension === ".eta") return;
+
       const dirContents = await fs.readdir(file.source.directory);
       const doesFileHaveTemplateAtSameDirLevel =
         dirContents.includes(TEMPLATE_FILE_NAME);

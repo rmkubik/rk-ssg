@@ -12,6 +12,7 @@ import { UseDirectoryAsNameForIndex } from "../transformers/useDirectoryAsNameFo
 import { ProcessHtmlContentAsEtaTemplate } from "../transformers/processHtmlContentAsEtaTemplate";
 import { PrettifyHtmlContent } from "../transformers/prettifyHtmlContent";
 import { RemapPathPublicFiles } from "../transformers/remapPathPublicFiles";
+import { IdentifyEtaTemplates } from "../transformers/identifyEtaTemplates";
 
 export const build = command({
   name: "build",
@@ -29,6 +30,7 @@ export const build = command({
       // whatever server I'm hosting the files on?
       // .transform(new UseDirectoryAsNameForIndex())
       .transform(new MarkdownToHtml())
+      .transform(new IdentifyEtaTemplates())
       .transform(new ProcessHtmlContentAsEtaTemplate())
       .transform(new EtaToHtml())
       .transform(new FindEtaTemplate())
@@ -37,6 +39,7 @@ export const build = command({
       .transform(new RemapPathPublicFiles())
       .emit(new WriteFiles("**/*.html", "./dist"))
       .emit(new WriteFiles("public/**/*.*", "./dist"))
+      .emit(new WriteFiles(["**/*.png", "**/*.jpg"], "./dist"))
       .emit(new WriteHtmlContentFiles("./dist"));
 
     await pipeline.run();
