@@ -9,6 +9,10 @@ export class FileSource {
     return path.relative(this.origin.filePath, this.absolutePath);
   }
 
+  get directoryRelativeToOrigin(): string {
+    return path.dirname(this.pathRelativeToOrigin);
+  }
+
   get extension(): string {
     return path.extname(this.absolutePath);
   }

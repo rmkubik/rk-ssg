@@ -10,6 +10,8 @@ import { EtaTemplatedToHtml } from "../transformers/etaTemplatedToHtml";
 import { Pipeline } from "../pipeline/pipeline";
 import { UseDirectoryAsNameForIndex } from "../transformers/useDirectoryAsNameForIndex";
 import { ProcessHtmlContentAsEtaTemplate } from "../transformers/processHtmlContentAsEtaTemplate";
+import { PrettifyHtmlContent } from "../transformers/prettifyHtmlContent";
+import { RemapPathPublicFiles } from "../transformers/remapPathPublicFiles";
 
 export const build = command({
   name: "build",
@@ -31,7 +33,10 @@ export const build = command({
       .transform(new EtaToHtml())
       .transform(new FindEtaTemplate())
       .transform(new EtaTemplatedToHtml())
+      .transform(new PrettifyHtmlContent())
+      .transform(new RemapPathPublicFiles())
       .emit(new WriteFiles("**/*.html", "./dist"))
+      .emit(new WriteFiles("public/**/*.*", "./dist"))
       .emit(new WriteHtmlContentFiles("./dist"));
 
     await pipeline.run();

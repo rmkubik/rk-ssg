@@ -18,7 +18,9 @@ export class SsgFile {
   // if htmlContent, .html
   // if baseName, new basename
   get outputPath() {
-    const originDirPath = path.dirname(this.source.pathRelativeToOrigin);
+    const outputDirPath =
+      this.transformations.outputDirPath ??
+      path.dirname(this.source.pathRelativeToOrigin);
     const baseName = this.transformations.baseName ?? this.source.basename;
     const extension = this.transformations.htmlContent
       ? ".html"
@@ -35,6 +37,6 @@ export class SsgFile {
      * - is it maybe more technically correct to leave these as index.html files anyway......
      */
 
-    return path.join(originDirPath, baseName + extension);
+    return path.join(outputDirPath, baseName + extension);
   }
 }

@@ -9,12 +9,13 @@ export class WriteFiles extends Emitter {
   }
 
   filter(file: SsgFile): boolean {
-    return micromatch.isMatch(file.source.absolutePath, this.matchingGlob);
+    return micromatch.isMatch(
+      file.source.pathRelativeToOrigin,
+      this.matchingGlob
+    );
   }
 
   emit(files: SsgFile[]): void {
-    files.map((file) =>
-      file.copyTo(path.join(this.target, file.source.pathRelativeToOrigin))
-    );
+    files.map((file) => file.copyTo(path.join(this.target, file.outputPath)));
   }
 }
