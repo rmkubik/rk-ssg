@@ -29,14 +29,17 @@ export const build = command({
       // files like this or collapse them into /post.html... I guess it will depend on
       // whatever server I'm hosting the files on?
       // .transform(new UseDirectoryAsNameForIndex())
-      .transform(new MarkdownToHtml())
+      // "pre transform"
+      .transform(new RemapPathPublicFiles())
       .transform(new IdentifyEtaTemplates())
+      .transform(new FindEtaTemplate())
+      // "transform"
+      .transform(new MarkdownToHtml())
       .transform(new ProcessHtmlContentAsEtaTemplate())
       .transform(new EtaToHtml())
-      .transform(new FindEtaTemplate())
       .transform(new EtaTemplatedToHtml())
+      // "post transform"
       .transform(new PrettifyHtmlContent())
-      .transform(new RemapPathPublicFiles())
       .emit(new WriteFiles("**/*.html", "./dist"))
       .emit(new WriteFiles("public/**/*.*", "./dist"))
       .emit(new WriteFiles(["**/*.png", "**/*.jpg"], "./dist"))

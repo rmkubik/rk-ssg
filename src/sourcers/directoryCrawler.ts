@@ -29,7 +29,11 @@ export async function crawlDirectory({
         if (!item) return;
         paths.push(
           new SsgFile(
-            new FileSource(item.path, new FileSourceOrigin(directory))
+            new FileSource(
+              item.path,
+              new FileSourceOrigin(directory),
+              item.stats
+            )
           )
         );
       })

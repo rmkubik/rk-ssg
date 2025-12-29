@@ -1,6 +1,10 @@
 <html>
   <body>
     <h1>Blog <%= it.name %></h1>
-    <%= it.context.allSlugs %>
+    <ul>
+    <% it.context.allSlugs.forEach(function(slug){ %>
+      <li><a href="<%= slug %>"><%= slug %></a></li>
+    <% }) %>
+    </ul>
   </body>
 </html>

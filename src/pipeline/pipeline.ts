@@ -13,9 +13,7 @@ export class Pipeline {
     this.items.push(async (files: SsgFile[]) => {
       const newFiles = await sourcer.source(this.context);
       const allFiles = [...files, ...newFiles];
-      this.context.allSlugs = allFiles.map(
-        (file) => file.source.pathRelativeToOrigin
-      );
+      this.context.allFiles = allFiles;
       return allFiles;
     });
     return this;

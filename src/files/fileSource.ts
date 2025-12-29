@@ -1,9 +1,18 @@
 import fs from "fs/promises";
 import { FileSourceOrigin } from "./fileSourceOrigin";
 import path from "path";
+import { Stats } from "fs";
 
 export class FileSource {
-  constructor(public absolutePath: string, public origin: FileSourceOrigin) {}
+  constructor(
+    public absolutePath: string,
+    public origin: FileSourceOrigin,
+    private stats: Stats
+  ) {}
+
+  get isDirectory(): boolean {
+    return this.stats.isDirectory();
+  }
 
   get pathRelativeToOrigin(): string {
     return path.relative(this.origin.filePath, this.absolutePath);
