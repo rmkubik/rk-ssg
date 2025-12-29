@@ -4,6 +4,7 @@ export class FileTransformations {
   htmlContent?: string;
   matter?: FrontMatter;
   isEtaTemplate?: boolean;
+  isEtaView?: boolean;
   etaTemplate?: string;
   // Override default output basename
   baseName?: string;

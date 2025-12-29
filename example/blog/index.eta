@@ -1,10 +1,8 @@
-<html>
-  <body>
-    <h1>Blog <%= it.name %></h1>
-    <ul>
-    <% it.context.htmlSlugsInDirectory("/blog/").forEach(function(slug){ %>
-      <li><a href="<%= slug %>"><%= slug %></a></li>
-    <% }) %>
-    </ul>
-  </body>
-</html>
+<% layout("@/views/layout") %>
+
+<h1>Blog <%= it.name %></h1>
+<ul>
+<% it.context.htmlSlugsInDirectory("/blog/").forEach(function(slug){ %>
+  <li><a href="<%= slug %>"><%= slug %></a></li>
+<% }) %>
+</ul>

@@ -2,6 +2,7 @@ import { Eta } from "eta";
 import { SsgFile } from "../files/ssgFile";
 import { Transformer } from "./transformer";
 import { PipelineContext } from "../pipeline/pipelineContext";
+import { loadEtaViews } from "../templating/loadEtaViews";
 
 export class EtaTemplatedToHtml extends Transformer {
   private eta: Eta;
@@ -18,6 +19,8 @@ export class EtaTemplatedToHtml extends Transformer {
   }
 
   async transform(files: SsgFile[], context: PipelineContext): Promise<void> {
+    await loadEtaViews(this.eta, context.allEtaViews);
+
     const promises = files.map(async (file) => {
       if (!file.transformations.etaTemplate) {
         console.error(

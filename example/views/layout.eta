@@ -1,1 +1,10 @@
-hello world
+<html>
+  <body>
+    <header>
+      <h2>Site name</h2>
+    </header>
+    <main>
+      <%~ it.body %>
+    </main>
+  </body>
+</html>

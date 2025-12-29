@@ -16,6 +16,10 @@ function filterSlugsToDir(slugs: string[], directory: string): string[] {
 export class PipelineContext {
   allFiles: SsgFile[] = [];
 
+  get allEtaViews(): SsgFile[] {
+    return this.allFiles.filter((file) => file.transformations.isEtaView);
+  }
+
   get allSlugs(): string[] {
     return convertFilesToSlugs(this.allFiles);
   }

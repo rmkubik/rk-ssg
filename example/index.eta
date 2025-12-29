@@ -1,6 +1,4 @@
-<html>
-  <body>
-    <h1>Root <%= it.name %></h1>
-    <a href="/blog">Blog</a>
-  </body>
-</html>
+<% layout("@/views/layout") %>
+
+<h1>Root <%= it.name %></h1>
+<a href="/blog">Blog</a>

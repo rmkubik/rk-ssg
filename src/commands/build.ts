@@ -14,6 +14,7 @@ import { PrettifyHtmlContent } from "../transformers/prettifyHtmlContent";
 import { RemapPathPublicFiles } from "../transformers/remapPathPublicFiles";
 import { IdentifyEtaTemplates } from "../transformers/identifyEtaTemplates";
 import { DoNotEmitMatchingFiles } from "../transformers/DoNotEmitMatchingFiles";
+import { IdentifyEtaViews } from "../transformers/identifyEtaViews";
 
 export const build = command({
   name: "build",
@@ -34,6 +35,7 @@ export const build = command({
       .transform(new RemapPathPublicFiles())
       .transform(new IdentifyEtaTemplates())
       .transform(new FindEtaTemplate())
+      .transform(new IdentifyEtaViews("views/**/*.*"))
       .transform(new DoNotEmitMatchingFiles("views/**/*.*"))
       // "transform"
       .transform(new MarkdownToHtml())
