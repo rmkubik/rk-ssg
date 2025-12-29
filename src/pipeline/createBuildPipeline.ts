@@ -1,0 +1,45 @@
+import { Directory } from "cmd-ts/batteries/fs";
+import { command, positional } from "cmd-ts";
+import { DirectoryCrawler } from "../sourcers/directoryCrawler";
+import { WriteFiles } from "../emitters/writeFiles";
+import { MarkdownToHtml } from "../transformers/markdownToHtml";
+import { WriteHtmlContentFiles } from "../emitters/writeHtmlContentFiles";
+import { EtaToHtml } from "../transformers/etaToHtml";
+import { FindEtaTemplate } from "../transformers/findEtaTemplate";
+import { EtaTemplatedToHtml } from "../transformers/etaTemplatedToHtml";
+import { Pipeline } from "./pipeline";
+import { UseDirectoryAsNameForIndex } from "../transformers/useDirectoryAsNameForIndex";
+import { ProcessHtmlContentAsEtaTemplate } from "../transformers/processHtmlContentAsEtaTemplate";
+import { PrettifyHtmlContent } from "../transformers/prettifyHtmlContent";
+import { RemapPathPublicFiles } from "../transformers/remapPathPublicFiles";
+import { IdentifyEtaTemplates } from "../transformers/identifyEtaTemplates";
+import { DoNotEmitMatchingFiles } from "../transformers/DoNotEmitMatchingFiles";
+import { IdentifyEtaViews } from "../transformers/identifyEtaViews";
+
+export function createBuildPipeline(targetDirectory: string) {
+  return (
+    new Pipeline()
+      .source(new DirectoryCrawler({ directory: targetDirectory }))
+      // I'm not fully sure if it is more appropriate to just leave /post/index.html
+      // files like this or collapse them into /post.html... I guess it will depend on
+      // whatever server I'm hosting the files on?
+      // .transform(new UseDirectoryAsNameForIndex())
+      // "pre transform"
+      .transform(new RemapPathPublicFiles())
+      .transform(new IdentifyEtaTemplates())
+      .transform(new FindEtaTemplate())
+      .transform(new IdentifyEtaViews("views/**/*.*"))
+      .transform(new DoNotEmitMatchingFiles("views/**/*.*"))
+      // "transform"
+      .transform(new MarkdownToHtml())
+      .transform(new ProcessHtmlContentAsEtaTemplate())
+      .transform(new EtaToHtml())
+      .transform(new EtaTemplatedToHtml())
+      // "post transform"
+      .transform(new PrettifyHtmlContent())
+      .emit(new WriteFiles("**/*.html", "./dist"))
+      .emit(new WriteFiles("public/**/*.*", "./dist"))
+      .emit(new WriteFiles(["**/*.png", "**/*.jpg"], "./dist"))
+      .emit(new WriteHtmlContentFiles("./dist"))
+  );
+}

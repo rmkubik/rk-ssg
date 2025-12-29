@@ -7,11 +7,14 @@
     "start": "bun src/index.ts",
     "build:example": "npm start build example",
     "build:clean": "rm -rf dist",
-    "build:serve": "npx http-server dist -so"
+    "build:serve": "npm start serve example",
+    "build:serve:example": "npx http-server dist -so"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/chokidar": "^1.7.5",
+    "@types/express": "^5.0.6",
     "@types/fs-extra": "^11.0.4",
     "@types/klaw": "^3.0.7",
     "@types/mdast": "^4.0.0",
@@ -22,8 +25,10 @@
   },
   "dependencies": {
     "@types/hast": "^3.0.4",
+    "chokidar": "^5.0.0",
     "cmd-ts": "^0.14.3",
     "eta": "^4.5.0",
+    "express": "^5.2.1",
     "fs-extra": "^11.3.3",
     "hast": "^0.0.2",
     "htmlfy": "^1.0.1",

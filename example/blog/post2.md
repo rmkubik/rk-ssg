@@ -6,6 +6,8 @@ tags: test
 
 ## What's up everybody? 2
 
+This is some new content to be hot reloaded.
+
 This is a cool markdown post. 2
 
 It would be cool to have <custom-element>custom content</custom-element>. 2
