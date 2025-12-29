@@ -4,9 +4,9 @@ publishedAt: 2025-12-25
 tags: test
 ---
 
-## What's up everybody? 2
+## What's up everybody?
 
-This is some new content to be hot reloaded.
+I'm hot reloading now!
 
 This is a cool markdown post. 2
 
