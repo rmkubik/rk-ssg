@@ -116,12 +116,16 @@ export class SsgFile {
     // site.
     const absolutePathToWebRoot = "/" + relativePath.replace("./", "");
 
+    const pathToWebRootSansIndex = absolutePathToWebRoot.endsWith("index")
+      ? absolutePathToWebRoot.replace(/index$/, "")
+      : absolutePathToWebRoot;
+
     /**
      * Html files can have their extension omitted, all other file types
      * should keep their extensions.
      */
     const slugWithExtension =
-      absolutePathToWebRoot + (this.isHtml ? "" : this.source.extension);
+      pathToWebRootSansIndex + (this.isHtml ? "" : this.source.extension);
 
     return slugWithExtension;
   }

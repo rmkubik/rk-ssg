@@ -1,12 +1,33 @@
 import { SsgFile } from "../files/ssgFile";
 
+function convertFilesToSlugs(files: SsgFile[]): string[] {
+  return files
+    .filter((file) => !file.transformations.doNotEmit)
+    .filter((file) => !file.source.isDirectory)
+    .map((file) => file.slug);
+}
+
+function filterSlugsToDir(slugs: string[], directory: string): string[] {
+  return slugs
+    .filter((slug) => slug.startsWith(directory))
+    .filter((slug) => slug !== directory);
+}
+
 export class PipelineContext {
   allFiles: SsgFile[] = [];
 
-  get allSlugs() {
-    return this.allFiles
-      .filter((file) => !file.transformations.doNotEmit)
-      .filter((file) => !file.source.isDirectory)
-      .map((file) => file.slug);
+  get allSlugs(): string[] {
+    return convertFilesToSlugs(this.allFiles);
+  }
+
+  slugsInDirectory(directory: string): string[] {
+    return filterSlugsToDir(this.allSlugs, directory);
+  }
+
+  htmlSlugsInDirectory(directory: string): string[] {
+    const htmlFiles = this.allFiles.filter((file) => file.isHtml);
+    const htmlSlugs = convertFilesToSlugs(htmlFiles);
+
+    return filterSlugsToDir(htmlSlugs, directory);
   }
 }
