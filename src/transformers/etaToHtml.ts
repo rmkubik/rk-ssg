@@ -29,6 +29,7 @@ export class EtaToHtml extends Transformer {
       const parsed = await this.eta.renderStringAsync(contents, {
         matter: file.transformations.matter ?? {},
         htmlContent: file.transformations.htmlContent,
+        readingTime: file.transformations.readingTime ?? {},
         context,
       });
       file.transformations.htmlContent = parsed.toString();

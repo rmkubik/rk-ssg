@@ -48,6 +48,7 @@ export class ProcessHtmlContentAsEtaTemplate extends Transformer {
         file.transformations.htmlContent,
         {
           matter: file.transformations.matter ?? {},
+          readingTime: file.transformations.readingTime ?? {},
           context,
         }
       );

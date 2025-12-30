@@ -1,3 +1,5 @@
+import { ReadTimeResults } from "reading-time";
+
 export type FrontMatter = Record<string, unknown>;
 
 export class FileTransformations {
@@ -11,4 +13,5 @@ export class FileTransformations {
   // Override default outputPath, relative to origin
   outputDirPath?: string;
   doNotEmit?: boolean;
+  readingTime?: ReadTimeResults;
 }

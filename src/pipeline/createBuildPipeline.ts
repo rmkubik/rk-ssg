@@ -17,6 +17,7 @@ import { DoNotEmitMatchingFiles } from "../transformers/DoNotEmitMatchingFiles";
 import { IdentifyEtaViews } from "../transformers/identifyEtaViews";
 import { EmitRssFeed } from "../emitters/emitRssFeed";
 import { URL } from "url";
+import { ComputeReadingTime } from "../transformers/computeReadingTime";
 
 export function createBuildPipeline(targetDirectory: string) {
   return (
@@ -32,6 +33,7 @@ export function createBuildPipeline(targetDirectory: string) {
       .transform(new FindEtaTemplate())
       .transform(new IdentifyEtaViews("views/**/*.*"))
       .transform(new DoNotEmitMatchingFiles("views/**/*.*"))
+      .transform(new ComputeReadingTime())
       // "transform"
       .transform(new MarkdownToHtml())
       .transform(new ProcessHtmlContentAsEtaTemplate())

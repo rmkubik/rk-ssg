@@ -4,6 +4,7 @@
   <header>
     <h1><%= it.matter.title %></h1>
     <span><%= it.matter.publishedAt %></span>
+    <span><%= it.readingTime.text %>
   </header>
   <%~ it.htmlContent %>
 </article>

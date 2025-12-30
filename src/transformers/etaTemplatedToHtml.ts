@@ -34,6 +34,7 @@ export class EtaTemplatedToHtml extends Transformer {
         {
           matter: file.transformations.matter ?? {},
           htmlContent: file.transformations.htmlContent,
+          readingTime: file.transformations.readingTime ?? {},
           context,
         }
       );
