@@ -3,6 +3,10 @@ import { SsgFile } from "../files/ssgFile";
 import { Transformer } from "./transformer";
 import path from "path";
 
+/**
+ * TODO:
+ * This should be shared with other places that reference this string.
+ */
 const TEMPLATE_FILE_NAME = "_template.eta";
 
 export class FindEtaTemplate extends Transformer {

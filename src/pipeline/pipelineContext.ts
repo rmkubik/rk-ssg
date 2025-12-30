@@ -1,25 +1,6 @@
 import { URL } from "url";
 import { SsgFile } from "../files/ssgFile";
 
-function convertFilesToSlugs(files: SsgFile[]): string[] {
-  return files
-    .filter((file) => !file.transformations.doNotEmit)
-    .filter((file) => !file.source.isDirectory)
-    .map((file) => file.slug);
-}
-
-function filterSlugsToDir(slugs: string[], directory: string): string[] {
-  return slugs
-    .filter((slug) => slug.startsWith(directory))
-    .filter((slug) => slug !== directory);
-}
-
-function filterFilesToDir(files: SsgFile[], directory: string): SsgFile[] {
-  return files
-    .filter((file) => file.slug.startsWith(directory))
-    .filter((file) => file.slug !== directory);
-}
-
 export class PipelineContext {
   allFiles: SsgFile[] = [];
 
@@ -48,4 +29,23 @@ export class PipelineContext {
 
     return filterSlugsToDir(htmlSlugs, directory);
   }
+}
+
+function convertFilesToSlugs(files: SsgFile[]): string[] {
+  return files
+    .filter((file) => !file.transformations.doNotEmit)
+    .filter((file) => !file.source.isDirectory)
+    .map((file) => file.slug);
+}
+
+function filterSlugsToDir(slugs: string[], directory: string): string[] {
+  return slugs
+    .filter((slug) => slug.startsWith(directory))
+    .filter((slug) => slug !== directory);
+}
+
+function filterFilesToDir(files: SsgFile[], directory: string): SsgFile[] {
+  return files
+    .filter((file) => file.slug.startsWith(directory))
+    .filter((file) => file.slug !== directory);
 }

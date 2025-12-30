@@ -6,6 +6,31 @@ import { FileSource } from "../files/fileSource";
 import { FileSourceOrigin } from "../files/fileSourceOrigin";
 import { Sourcer } from "./sourcer";
 
+export class DirectoryCrawler extends Sourcer {
+  private directory: string;
+  private blockList: string[] = [];
+
+  constructor({
+    directory,
+    blockList = [],
+  }: {
+    directory: string;
+    blockList?: string[];
+  }) {
+    super();
+
+    this.directory = directory;
+    this.blockList = blockList;
+  }
+
+  source() {
+    return crawlDirectory({
+      directory: this.directory,
+      blockList: this.blockList,
+    });
+  }
+}
+
 const excludedGlobsFilter = (excludedGlobs: string[]) =>
   through2.obj(function (item, enc, next) {
     if (!micromatch.isMatch(item.path, excludedGlobs)) this.push(item);
@@ -44,29 +69,4 @@ export async function crawlDirectory({
         resolve(paths);
       });
   });
-}
-
-export class DirectoryCrawler extends Sourcer {
-  private directory: string;
-  private blockList: string[] = [];
-
-  constructor({
-    directory,
-    blockList = [],
-  }: {
-    directory: string;
-    blockList?: string[];
-  }) {
-    super();
-
-    this.directory = directory;
-    this.blockList = blockList;
-  }
-
-  source() {
-    return crawlDirectory({
-      directory: this.directory,
-      blockList: this.blockList,
-    });
-  }
 }

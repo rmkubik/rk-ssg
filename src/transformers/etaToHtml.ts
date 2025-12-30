@@ -26,6 +26,11 @@ export class EtaToHtml extends Transformer {
 
     const promises = files.map(async (file) => {
       const contents = await file.source.read();
+
+      /**
+       * This needs to be synced to the other eta transformers, in particular
+       * the passed in variables.
+       */
       const parsed = await this.eta.renderStringAsync(contents, {
         matter: file.transformations.matter ?? {},
         htmlContent: file.transformations.htmlContent,

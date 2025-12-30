@@ -2,6 +2,11 @@ import { SsgFile } from "../files/ssgFile";
 import { Transformer } from "./transformer";
 import micromatch from "micromatch";
 
+/**
+ * TODO:
+ * It feels weird that this transformer is tied to and is a random
+ * pre-requisite to the file.copyTo function.
+ */
 export class DoNotEmitMatchingFiles extends Transformer {
   constructor(private targetGlob: string) {
     super();

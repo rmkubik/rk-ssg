@@ -44,6 +44,10 @@ export class ProcessHtmlContentAsEtaTemplate extends Transformer {
         return;
       }
 
+      /**
+       * This needs to be synced to the other eta transformers, in particular
+       * the passed in variables.
+       */
       const parsed = await this.eta.renderStringAsync(
         file.transformations.htmlContent,
         {

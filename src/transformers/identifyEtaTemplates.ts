@@ -14,6 +14,8 @@ export class IdentifyEtaTemplates extends Transformer {
     const promises = files.map(async (file) => {
       if (file.source.absolutePath.endsWith(TEMPLATE_FILE_NAME)) {
         file.transformations.isEtaTemplate = true;
+        // Feels a little redundant/coupled that this transformer needs to mark these
+        // templates as doNotEmit itself.
         file.transformations.doNotEmit = true;
       }
     });
