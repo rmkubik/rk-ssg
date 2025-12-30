@@ -3,6 +3,13 @@ import fsExtra from "fs-extra";
 import { FileTransformations } from "../transformers/fileTransformations";
 import path from "path";
 
+/**
+ * SSG's representation of a file. It has a FileSource that gives information
+ * about how it was sourced.
+ *
+ * It has a set of FileTransformations that contain data transformers have
+ * added to it and will be used when emitting.
+ */
 export class SsgFile {
   transformations: FileTransformations;
 
@@ -46,6 +53,12 @@ export class SsgFile {
     );
   }
 
+  /**
+   * Copy this file to the target location with the provided content
+   *
+   * TODO:
+   * I don't think this function really makes that much sense.
+   */
   async copyTo(target: string, content?: string): Promise<void> {
     /**
      * TODO:
@@ -63,8 +76,13 @@ export class SsgFile {
     await fsExtra.outputFile(target, finalContent);
   }
 
-  // if htmlContent, .html
-  // if baseName, new basename
+  /**
+   * This is the path a file should be outputted to on disk based on
+   * original file source and transformations.
+   *
+   * if htmlContent, .html
+   * if baseName, new basename
+   */
   get outputPath() {
     const outputDirPath =
       this.transformations.outputDirPath ??

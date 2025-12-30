@@ -1,69 +1,33 @@
-The idea of this project is to build a static site generator specifically only for my own purposes.
+# Ryan Kubik's Static Site Generator
 
-Architecture thoughts
+The idea of this project is to build a static site generator specifically only for my own purposes. I liked [this article](https://henderson.lol/pages/hire/psg) from a friend on the subject and it inspired this project.
 
-- You have a sourcer
-  - find markdown files
-  - find templates
-  - find image files
-  - find static/public files
-- You have a transformer
-  - parse markdown files
-    - frontmatter
-    - custom syntax
-  - combine markdown files and templates
-  - transform images
-- You have an emitter
-  - write combined template files to disk
-  - write images to disk
-  - write RSS feed to disk
-  - write static/public files to disk
+I went and overcomplicated this project, but I had fun doing so. I learned a lot more about how some of these tools work so that has been nice too.
 
-I think we could just run these things in sequence. That might not be a robust model... But I think it should serve perfectly fine for my own purposes.
+## Development
 
-Using TS and Bun:
+This project has an `example` directory, this is a fake site that has a bunch of different features the generator supports.
 
-- I think we can just write this as TS
-- We can use Bun for now. I don't think I'm into their long term trajectory, but it does make TS "just work" for what I've seen thus far.
-- We can build this as a single file executable: https://bun.com/docs/bundler/executables
+To do a test build:
 
-API
+- `npm run build:clean` to remove all previously built files
+- `npm run build:example` to generate a build of the example project in the `dist` folder
+- `npm run build:serve` will run a dev server that auto-rebuilds and hot-reloads site files as you work on them
 
-- rk-ssg build <target_dir>
-- rk-ssg serve <target_dir>
+## Architecture
 
-Other features:
+There's a build `Pipeline` that governs how the build works. Right now it is created in `src/pipeline/createBuildPipeline.ts`. Ideally, this pipeline should be easily configurable per consumer in the future.
 
-- I want to have markdown files
-- They reference images in a folder next to them
-- They are assigned to an eta template
-- I can create an index.eta that also can consume the list of markdown files
+A Pipeline has three kinds of component:
 
-Next.js specifies templates like so:
+- `Sourcer` - locates files from sources (only on disk right now) and gets them into the pipeline
+- `Transformer` - uses information from files to add data to `file.transformations` used in subsequent transformations or emissions
+- `Emitter` - uses transformed file data to write files to disk
 
-```
-/blog
-  [slug].js
-  entry1.md
-  entry2.md
-  entry3.md
-```
+### Transformers
 
-My format:
+The order of transformations matters. This leads to several inconvenient issues right now. It is not particularly intuitive, easy to make mistakes, and hard to tell what those mistakes are. I'd like to explore cleaning that up in the future as I add new capabilities.
 
-```
-/blog
-  /post1
-    index.md
-    image.png
-  post2.md
-  _template.eta
-```
+There seem to be sort of "pre" and "post" transformation steps. These aren't formalized. The "pre" steps are more about identifying data about files so that the main transformations can use that data. The main transformations actually convert files to significant different formats. The "post" transformations do things like prettify output.
 
-/blog/post1
-/blog/post2
-
-We should "prettify" the output HTML:
-
-- I would like it to be nicely indented
-- Possibly we should be minifying it instead...
+I'm not sure if formalizing this pre, main, post will help understanding or not. I think it could reduce the cognitive load of dealing with the specific ordering transformers are run.

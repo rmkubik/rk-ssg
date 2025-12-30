@@ -3,6 +3,13 @@ import { SsgFile } from "../files/ssgFile";
 import { Emitter } from "./emitter";
 import micromatch from "micromatch";
 
+/**
+ * Write files to disk who's source relative to origin
+ * matches the input glob. Write them to target directory.
+ *
+ * This uses the file's default copyTo() content. This is
+ * usually an untransformed value.
+ */
 export class WriteFiles extends Emitter {
   constructor(
     private matchingGlobs: string | string[],
@@ -19,6 +26,10 @@ export class WriteFiles extends Emitter {
   }
 
   emit(files: SsgFile[]): void {
+    /**
+     * TODO:
+     * This logic needs to be manually synced with other file emitters
+     */
     files.map((file) => file.copyTo(path.join(this.target, file.outputPath)));
   }
 }

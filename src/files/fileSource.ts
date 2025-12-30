@@ -3,6 +3,10 @@ import { FileSourceOrigin } from "./fileSourceOrigin";
 import path from "path";
 import { Stats } from "fs";
 
+/**
+ * Representation of the file's source on disk. This is associated
+ * with a particular file source origin.
+ */
 export class FileSource {
   constructor(
     public absolutePath: string,

@@ -21,26 +21,49 @@ import { ComputeReadingTime } from "../transformers/computeReadingTime";
 
 export function createBuildPipeline(targetDirectory: string) {
   return (
+    /**
+     * TODO:
+     * This port and dev server URL needs to be manually synced with the
+     * dev server.
+     *
+     * This would be more useful if it were configurable by an end user.
+     */
     new Pipeline(new URL("http://localhost:3000"))
       .source(new DirectoryCrawler({ directory: targetDirectory }))
       // I'm not fully sure if it is more appropriate to just leave /post/index.html
       // files like this or collapse them into /post.html... I guess it will depend on
       // whatever server I'm hosting the files on?
       // .transform(new UseDirectoryAsNameForIndex())
-      // "pre transform"
+      // --- "pre transform" ---
+      // Change the output path of public files to not have /public
       .transform(new RemapPathPublicFiles())
+      // Track which files are _template.eta
       .transform(new IdentifyEtaTemplates())
+      // Find _template.eta files for each file that might use a template
       .transform(new FindEtaTemplate())
+      /**
+       * Track which files are eta view files.
+       *
+       * TODO:
+       * This should be configurable.
+       */
       .transform(new IdentifyEtaViews("views/**/*.*"))
+      // Mark eta view files as not being emitted
       .transform(new DoNotEmitMatchingFiles("views/**/*.*"))
+      // Add reading time info to file transformation
       .transform(new ComputeReadingTime())
-      // "transform"
+      // --- "transform" ---
+      // Convert markdown files to htmlContent
       .transform(new MarkdownToHtml())
+      // Process htmlContent as an eta template and overwrite htmlContent
       .transform(new ProcessHtmlContentAsEtaTemplate())
+      // Convert .eta files to htmlContent
       .transform(new EtaToHtml())
+      // Convert files with .etaTemplate to htmlContent
       .transform(new EtaTemplatedToHtml())
-      // "post transform"
+      // --- "post transform" ---
       .transform(new PrettifyHtmlContent())
+      // --- emit ---
       .emit(new WriteFiles("**/*.html", "./dist"))
       .emit(new WriteFiles("public/**/*.*", "./dist"))
       .emit(new WriteFiles(["**/*.png", "**/*.jpg"], "./dist"))

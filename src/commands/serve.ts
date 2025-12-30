@@ -11,6 +11,13 @@ import fs from "fs/promises";
 
 const port = 3000;
 
+/**
+ * Inject a web socket connection into all HTML files that we serve
+ * from this middleware.
+ *
+ * The web socket will refresh the browser when our dev server detects
+ * a change to a file it is watching.
+ */
 function injectDevServerWebSocket(targetDirectory: string) {
   return async function (req: Request, res: Response, next: NextFunction) {
     // Only handle get requests that are looking for HTML

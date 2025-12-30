@@ -1,7 +1,7 @@
 {
   "name": "rk-ssg",
   "version": "1.0.0",
-  "description": "",
+  "description": "Personal markdown based static site generator",
   "main": "index.js",
   "scripts": {
     "start": "bun src/index.ts",
@@ -10,8 +10,8 @@
     "build:serve": "npm start serve example",
     "build:serve:example": "npx http-server dist -so"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Ryan Kubik",
+  "license": "MIT",
   "devDependencies": {
     "@types/chokidar": "^1.7.5",
     "@types/express": "^5.0.6",
