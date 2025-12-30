@@ -1,3 +1,4 @@
+import { URL } from "url";
 import { SsgFile } from "../files/ssgFile";
 
 function convertFilesToSlugs(files: SsgFile[]): string[] {
@@ -13,8 +14,16 @@ function filterSlugsToDir(slugs: string[], directory: string): string[] {
     .filter((slug) => slug !== directory);
 }
 
+function filterFilesToDir(files: SsgFile[], directory: string): SsgFile[] {
+  return files
+    .filter((file) => file.slug.startsWith(directory))
+    .filter((file) => file.slug !== directory);
+}
+
 export class PipelineContext {
   allFiles: SsgFile[] = [];
+
+  constructor(public siteUrl: URL) {}
 
   get allEtaViews(): SsgFile[] {
     return this.allFiles.filter((file) => file.transformations.isEtaView);
@@ -26,6 +35,11 @@ export class PipelineContext {
 
   slugsInDirectory(directory: string): string[] {
     return filterSlugsToDir(this.allSlugs, directory);
+  }
+
+  htmlFilesInDirectory(directory: string): SsgFile[] {
+    const htmlFiles = this.allFiles.filter((file) => file.isHtml);
+    return filterFilesToDir(htmlFiles, directory);
   }
 
   htmlSlugsInDirectory(directory: string): string[] {

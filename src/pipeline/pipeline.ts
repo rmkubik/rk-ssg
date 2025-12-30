@@ -1,3 +1,4 @@
+import { URL } from "url";
 import { Emitter } from "../emitters/emitter";
 import { SsgFile } from "../files/ssgFile";
 import { log } from "../functional/log";
@@ -7,7 +8,11 @@ import { PipelineContext } from "./pipelineContext";
 
 export class Pipeline {
   items: Array<(files: SsgFile[]) => Promise<SsgFile[]>> = [];
-  context = new PipelineContext();
+  context: PipelineContext;
+
+  constructor(siteUrl: URL) {
+    this.context = new PipelineContext(siteUrl);
+  }
 
   source(sourcer: Sourcer): Pipeline {
     this.items.push(async (files: SsgFile[]) => {

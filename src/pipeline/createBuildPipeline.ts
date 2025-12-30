@@ -15,10 +15,12 @@ import { RemapPathPublicFiles } from "../transformers/remapPathPublicFiles";
 import { IdentifyEtaTemplates } from "../transformers/identifyEtaTemplates";
 import { DoNotEmitMatchingFiles } from "../transformers/DoNotEmitMatchingFiles";
 import { IdentifyEtaViews } from "../transformers/identifyEtaViews";
+import { EmitRssFeed } from "../emitters/emitRssFeed";
+import { URL } from "url";
 
 export function createBuildPipeline(targetDirectory: string) {
   return (
-    new Pipeline()
+    new Pipeline(new URL("http://localhost:3000"))
       .source(new DirectoryCrawler({ directory: targetDirectory }))
       // I'm not fully sure if it is more appropriate to just leave /post/index.html
       // files like this or collapse them into /post.html... I guess it will depend on
@@ -41,5 +43,6 @@ export function createBuildPipeline(targetDirectory: string) {
       .emit(new WriteFiles("public/**/*.*", "./dist"))
       .emit(new WriteFiles(["**/*.png", "**/*.jpg"], "./dist"))
       .emit(new WriteHtmlContentFiles("./dist"))
+      .emit(new EmitRssFeed("/blog/", "./dist"))
   );
 }
