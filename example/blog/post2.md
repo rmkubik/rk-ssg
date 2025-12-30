@@ -15,3 +15,8 @@ It would be cool to have <custom-element>custom content</custom-element>. 2
 <span style="color: red;">html passthrough</span> 2
 
 And probably eta.js here as well: {{= it.name }} 2
+
+```ts
+const typescript = code("string");
+typescript.eval();
+```

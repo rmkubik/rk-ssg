@@ -10,6 +10,7 @@ import remarkFrontmatter from "remark-frontmatter";
 import parseMarkdownYamlFrontmatterPlugin from "../unified/parseMarkdownYamlFrontmatterPlugin";
 import { FrontMatter } from "./fileTransformations";
 import logPlugin from "../unified/log";
+import { toHtml } from "hast-util-to-html";
 
 export class MarkdownToHtml extends Transformer {
   private processor: Processor<
@@ -37,6 +38,19 @@ export class MarkdownToHtml extends Transformer {
       // we might have use for that in the future.
       .use(remarkRehype, {
         allowDangerousHtml: true,
+        handlers: {
+          // code(state, node) {
+          //   // Convert the node back to raw HTML (including children)
+          //   const result = {
+          //     type: "html",
+          //     value: toHtml(node),
+          //   };
+          //   // Keep positional info (optional but useful for source maps)
+          //   state.patch(node, result);
+          //   return result;
+          //   // return h(node, "code", { className: "my-code" }, node.value);
+          // },
+        },
       })
       .use(rehypeStringify, {
         allowDangerousHtml: true,
