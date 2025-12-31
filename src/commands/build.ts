@@ -1,5 +1,5 @@
 import { Directory } from "cmd-ts/batteries/fs";
-import { command, positional } from "cmd-ts";
+import { command, option, positional, string } from "cmd-ts";
 import { createBuildPipeline } from "../pipeline/createBuildPipeline";
 
 export const build = command({
@@ -9,9 +9,14 @@ export const build = command({
       displayName: "targetDirectory",
       type: Directory,
     }),
+    outDir: option({
+      type: string,
+      long: "outdir",
+      short: "o",
+    }),
   },
-  handler: async ({ targetDirectory }) => {
-    const pipeline = createBuildPipeline(targetDirectory);
+  handler: async ({ targetDirectory, outDir }) => {
+    const pipeline = createBuildPipeline(targetDirectory, outDir);
 
     await pipeline.run();
   },

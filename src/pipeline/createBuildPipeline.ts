@@ -19,7 +19,10 @@ import { EmitRssFeed } from "../emitters/emitRssFeed";
 import { URL } from "url";
 import { ComputeReadingTime } from "../transformers/computeReadingTime";
 
-export function createBuildPipeline(targetDirectory: string) {
+export function createBuildPipeline(
+  targetDirectory: string,
+  outputDirectory: string
+) {
   return (
     /**
      * TODO:
@@ -64,10 +67,10 @@ export function createBuildPipeline(targetDirectory: string) {
       // --- "post transform" ---
       .transform(new PrettifyHtmlContent())
       // --- emit ---
-      .emit(new WriteFiles("**/*.html", "./dist"))
-      .emit(new WriteFiles("public/**/*.*", "./dist"))
-      .emit(new WriteFiles(["**/*.png", "**/*.jpg"], "./dist"))
-      .emit(new WriteHtmlContentFiles("./dist"))
-      .emit(new EmitRssFeed("/blog/", "./dist"))
+      .emit(new WriteFiles("**/*.html", outputDirectory))
+      .emit(new WriteFiles("public/**/*.*", outputDirectory))
+      .emit(new WriteFiles(["**/*.png", "**/*.jpg"], outputDirectory))
+      .emit(new WriteHtmlContentFiles(outputDirectory))
+      .emit(new EmitRssFeed("/blog/", outputDirectory))
   );
 }

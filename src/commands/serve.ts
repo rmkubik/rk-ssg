@@ -1,5 +1,5 @@
 import { Directory } from "cmd-ts/batteries/fs";
-import { command, positional } from "cmd-ts";
+import { command, option, positional, string } from "cmd-ts";
 import { createBuildPipeline } from "../pipeline/createBuildPipeline";
 import express, { NextFunction, Request, Response } from "express";
 import chokidar from "chokidar";
@@ -150,12 +150,17 @@ export const serve = command({
       displayName: "targetDirectory",
       type: Directory,
     }),
+    outDir: option({
+      type: string,
+      long: "outdir",
+      short: "o",
+    }),
   },
-  handler: async ({ targetDirectory }) => {
+  handler: async ({ targetDirectory, outDir }) => {
     const { wss } = createApp();
 
     watch(targetDirectory, async () => {
-      const pipeline = createBuildPipeline(targetDirectory);
+      const pipeline = createBuildPipeline(targetDirectory, outDir);
 
       await pipeline.run();
 
