@@ -2,6 +2,10 @@
   "name": "rk-ssg",
   "version": "1.0.1",
   "description": "Personal markdown based static site generator",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rmkubik/rk-ssg.git"
+  },
   "main": "index.js",
   "scripts": {
     "start": "bun src/index.ts",
