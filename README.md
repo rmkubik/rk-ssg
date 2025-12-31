@@ -10,9 +10,19 @@ This project has an `example` directory, this is a fake site that has a bunch of
 
 To do a test build:
 
-- `npm run build:clean` to remove all previously built files
-- `npm run build:example` to generate a build of the example project in the `dist` folder
-- `npm run build:serve` will run a dev server that auto-rebuilds and hot-reloads site files as you work on them
+- `npm run build:example:clean` to remove all previously built files
+- `npm run build:example` to generate a build of the example project in the `example-dist` folder
+- `npm run build:example:serve` will run a dev server that auto-rebuilds and hot-reloads site files as you work on them
+
+### Building
+
+- Run `npm npm build` to create a bundled version of this project in the `dist` folder using `esbuild`
+
+### Publishing
+
+- Update the package version in `package.json`
+- Run `npm publish` to publish a new version
+  - You do not need to build the project first. The project will create a new build in its prepublish step.
 
 ## Architecture
 

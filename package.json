@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "bun src/index.ts",
-    "build": "esbuild src/index.ts --platform=node --bundle --outfile=dist/rk-ssg.js",
+    "build": "npm run build:clean && npm run build:src",
+    "prepublishOnly": "npm run build",
+    "build:src": "esbuild src/index.ts --platform=node --bundle --outfile=dist/rk-ssg.js",
     "build:clean": "rm -rf dist",
     "build:example": "npm start build example -- --outdir=example-dist",
     "build:example:clean": "rm -rf example-dist",
