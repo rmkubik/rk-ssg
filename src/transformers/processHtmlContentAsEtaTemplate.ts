@@ -39,7 +39,7 @@ export class ProcessHtmlContentAsEtaTemplate extends Transformer {
        */
       if (!file.transformations.htmlContent) {
         console.error(
-          `This should be an impossible situation due to the filter. ${file.source.absolutePath}`
+          `This should be an impossible situation due to the filter. ${file.source.absolutePath}`,
         );
         return;
       }
@@ -54,7 +54,7 @@ export class ProcessHtmlContentAsEtaTemplate extends Transformer {
           matter: file.transformations.matter ?? {},
           readingTime: file.transformations.readingTime ?? {},
           context,
-        }
+        },
       );
       file.transformations.htmlContent = parsed.toString();
     });

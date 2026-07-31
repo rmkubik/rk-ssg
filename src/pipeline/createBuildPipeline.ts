@@ -21,7 +21,7 @@ import { ComputeReadingTime } from "../transformers/computeReadingTime";
 
 export function createBuildPipeline(
   targetDirectory: string,
-  outputDirectory: string
+  outputDirectory: string,
 ) {
   return (
     /**
@@ -69,7 +69,9 @@ export function createBuildPipeline(
       // --- emit ---
       .emit(new WriteFiles("**/*.html", outputDirectory))
       .emit(new WriteFiles("public/**/*.*", outputDirectory))
-      .emit(new WriteFiles(["**/*.png", "**/*.jpg"], outputDirectory))
+      .emit(
+        new WriteFiles(["**/*.png", "**/*.jpg", "**/*.jpeg"], outputDirectory),
+      )
       .emit(new WriteHtmlContentFiles(outputDirectory))
       .emit(new EmitRssFeed("/blog/", outputDirectory))
   );

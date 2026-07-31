@@ -32,7 +32,7 @@ export class EtaTemplatedToHtml extends Transformer {
     const promises = files.map(async (file) => {
       if (!file.transformations.etaTemplate) {
         console.error(
-          "A file has been filtered into etaTemplatedToHtml transformation. These should have already have been filtered."
+          "A file has been filtered into etaTemplatedToHtml transformation. These should have already have been filtered.",
         );
         return;
       }
@@ -48,7 +48,7 @@ export class EtaTemplatedToHtml extends Transformer {
           htmlContent: file.transformations.htmlContent,
           readingTime: file.transformations.readingTime ?? {},
           context,
-        }
+        },
       );
       file.transformations.htmlContent = parsed.toString();
     });
