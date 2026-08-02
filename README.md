@@ -20,6 +20,7 @@ To do a test build:
 
 ### Publishing
 
+- Log into npm `npm login`
 - Update the package version in `package.json`
 - Run `npm publish` to publish a new version
   - You do not need to build the project first. The project will create a new build in its prepublish step.

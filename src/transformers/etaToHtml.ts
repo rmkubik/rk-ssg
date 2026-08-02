@@ -18,7 +18,17 @@ export class EtaToHtml extends Transformer {
   }
 
   filter(file: SsgFile): boolean {
-    return file.source.extension === ".eta";
+    return (
+      file.source.extension === ".eta" &&
+      /**
+       * It is unfortunate that we are sort of hard coupling this transformer
+       * to the previous one that identifies templates. I think ideally, you'd
+       * maybe configure this Transformer to be able to ignore whatever you want.
+       *
+       * This is done so that etaTemplates themselves are not parsed by themselves.
+       */
+      !file.transformations.isEtaTemplate
+    );
   }
 
   async transform(files: SsgFile[], context: PipelineContext): Promise<void> {
