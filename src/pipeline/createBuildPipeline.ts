@@ -74,6 +74,6 @@ export function createBuildPipeline(
       )
       .emit(new WriteHtmlContentFiles(outputDirectory))
       .emit(new EmitRssFeed("/blog/", outputDirectory))
-      .enableDebug()
+    // .enableDebug()
   );
 }
