@@ -5,7 +5,6 @@ import { log } from "../functional/log";
 import { Sourcer } from "../sourcers/sourcer";
 import { Transformer } from "../transformers/transformer";
 import { PipelineContext } from "./pipelineContext";
-import fsExtra from "fs-extra";
 
 export class Pipeline {
   items: Array<(files: SsgFile[]) => Promise<SsgFile[]>> = [];
@@ -26,11 +25,6 @@ export class Pipeline {
       const newFiles = await sourcer.source(this.context);
       const allFiles = [...files, ...newFiles];
       this.context.allFiles = allFiles;
-
-      await fsExtra.outputFile(
-        "/Users/ryankubik/git/my-site/fileExts.txt",
-        allFiles.map((file) => file.source.extension).join("\n"),
-      );
 
       this.logDebugMessage(
         `Completed pipeline sourcer: ${sourcer.constructor.name} in ${Date.now() - startTime}ms. Sourced ${newFiles.length} files.`,
