@@ -45,6 +45,7 @@ export class EtaToHtml extends Transformer {
         matter: file.transformations.matter ?? {},
         htmlContent: file.transformations.htmlContent,
         readingTime: file.transformations.readingTime ?? {},
+        slug: file.slug,
         context,
       });
       file.transformations.htmlContent = parsed.toString();
