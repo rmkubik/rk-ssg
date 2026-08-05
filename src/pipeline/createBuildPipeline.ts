@@ -72,6 +72,7 @@ export function createBuildPipeline(
       .emit(
         new WriteFiles(["**/*.png", "**/*.jpg", "**/*.jpeg"], outputDirectory),
       )
+      .emit(new WriteFiles(["**/*.mp4"], outputDirectory))
       .emit(new WriteHtmlContentFiles(outputDirectory))
       .emit(new EmitRssFeed("/blog/", outputDirectory))
     // .enableDebug()

@@ -1,6 +1,6 @@
 {
   "name": "rk-ssg",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "Personal markdown based static site generator",
   "repository": {
     "type": "git",
