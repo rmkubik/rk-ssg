@@ -94,18 +94,18 @@ function broadcast(wss: WebSocketServer, message: string) {
   });
 }
 
-function createApp() {
+function createApp(outDir: string) {
   const app = express();
 
   /**
    * We need to serve .html files ourselves so that we can inject
    * our web socket script.
    */
-  app.use(injectDevServerWebSocket("dist"));
+  app.use(injectDevServerWebSocket(outDir));
 
   app.use(
     // Serve static assets from the dist folder
-    express.static("dist", {
+    express.static(outDir, {
       // Leaving this here for posterity, but we're now serving HTML
       // files above with our custom middleware.
       //
@@ -182,7 +182,7 @@ export const serve = command({
     }),
   },
   handler: async ({ targetDirectory, outDir }) => {
-    const { wss } = createApp();
+    const { wss } = createApp(outDir);
 
     watch(targetDirectory, async (event: EventName, path: string) => {
       const pipeline = createBuildPipeline(targetDirectory, outDir);

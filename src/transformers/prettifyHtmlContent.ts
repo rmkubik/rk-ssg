@@ -14,7 +14,10 @@ export class PrettifyHtmlContent extends Transformer {
       if (!file.transformations.htmlContent) return;
 
       file.transformations.htmlContent = prettify(
-        file.transformations.htmlContent
+        file.transformations.htmlContent,
+        {
+          ignore: ["pre", "code"],
+        },
       );
     });
 
