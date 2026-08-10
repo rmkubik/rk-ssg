@@ -40,12 +40,20 @@ export class EtaToHtml extends Transformer {
       /**
        * This needs to be synced to the other eta transformers, in particular
        * the passed in variables.
+       *
+       * TODO:
+       * I need to keep manually adding in new "file context" values whenever
+       * I add new transformations. I shouldn't need to remember to do this
+       * step manually. I should have a way, probably when I'm making the new
+       * pipeline step to flag it as "Expose This On File Context" so that
+       * templates can reference the data.
        */
       const parsed = await this.eta.renderStringAsync(contents, {
         matter: file.transformations.matter ?? {},
         htmlContent: file.transformations.htmlContent,
         readingTime: file.transformations.readingTime ?? {},
         slug: file.slug,
+        previewText: file.transformations.previewText,
         context,
       });
       file.transformations.htmlContent = parsed.toString();

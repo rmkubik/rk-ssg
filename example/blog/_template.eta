@@ -6,5 +6,6 @@
     <span><%= it.matter.publishedAt %></span>
     <span><%= it.readingTime.text %>
   </header>
+  <p>preview: <%= it.previewText %></p>
   <%~ it.htmlContent %>
 </article>

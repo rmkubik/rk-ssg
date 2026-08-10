@@ -23,4 +23,5 @@ export class FileTransformations {
   outputDirPath?: string;
   doNotEmit?: boolean;
   readingTime?: ReadTimeResults;
+  previewText?: string;
 }

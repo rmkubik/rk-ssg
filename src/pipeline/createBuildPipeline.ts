@@ -18,6 +18,7 @@ import { IdentifyEtaViews } from "../transformers/identifyEtaViews";
 import { EmitRssFeed } from "../emitters/emitRssFeed";
 import { URL } from "url";
 import { ComputeReadingTime } from "../transformers/computeReadingTime";
+import { HtmlTextPreview } from "../transformers/HtmlTextPreview";
 
 export function createBuildPipeline(
   targetDirectory: string,
@@ -55,6 +56,20 @@ export function createBuildPipeline(
       .transform(new DoNotEmitMatchingFiles("views/**/*.*"))
       // Add reading time info to file transformation
       .transform(new ComputeReadingTime())
+      // This needs to be applied after all htmlContent generating transformations
+      // TODO:
+      // Chicken and Egg problem – I need to process the earlier htmlContent
+      // transforms so that I can find the preview text. But, then those things
+      // will not be able to reference previewText since its undefined when
+      // they run.
+      //
+      // I don't really need my OWN preview text. Maybe it makes more sense to
+      // ask for a file's preview text instead?
+      //
+      // I will implement this naively, but we should probably figure out a more
+      // optimized way to re-use this logic instead of fully reparsing the files
+      // again.
+      .transform(new HtmlTextPreview())
       // --- "transform" ---
       // Convert markdown files to htmlContent
       .transform(new MarkdownToHtml())

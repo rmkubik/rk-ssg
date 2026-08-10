@@ -1,10 +1,16 @@
 import { URL } from "url";
 import { SsgFile } from "../files/ssgFile";
+import { Pipeline } from "./pipeline";
+import { AbsolutePathSourcer } from "../sourcers/absolutePathSourcer";
+import { Transformer } from "../transformers/transformer";
 
 export class PipelineContext {
   allFiles: SsgFile[] = [];
 
-  constructor(public siteUrl: URL) {}
+  constructor(
+    public siteUrl: URL,
+    private pipeline: Pipeline,
+  ) {}
 
   get allEtaViews(): SsgFile[] {
     return this.allFiles.filter((file) => file.transformations.isEtaView);
@@ -28,6 +34,40 @@ export class PipelineContext {
     const htmlSlugs = convertFilesToSlugs(htmlFiles);
 
     return filterSlugsToDir(htmlSlugs, directory);
+  }
+
+  async transformAbsolutePath(
+    absolutePath: string,
+    rootDirectory: string,
+    filterTransformers: (transformer: Transformer) => boolean,
+  ): Promise<SsgFile> {
+    // Minimal changes would be:
+    // clone existing pipeline
+    // replace sourcers and emitters though
+    // new sourcer is "single file path" or "source by slug"
+    // no emitters needed
+    const pipeline = this.pipeline
+      .copy()
+      // .removeAllOfType("sourcer")
+      // .removeAllOfType("emitter")
+      .removeBy((item) => {
+        if (item.definition instanceof Transformer) {
+          return filterTransformers(item.definition);
+        }
+
+        // Remove all non-transformer pipeline items
+        return false;
+      })
+      .source(
+        new AbsolutePathSourcer({
+          rootDirectory,
+          absolutePath,
+        }),
+        true,
+      );
+    const [file] = await pipeline.run();
+
+    return file;
   }
 }
 
