@@ -20,6 +20,10 @@ export class PipelineContext {
     return convertFilesToSlugs(this.allFiles);
   }
 
+  getFileFromSlug(slug: string) {
+    return this.allFiles.find((file) => file.slug === slug);
+  }
+
   slugsInDirectory(directory: string): string[] {
     return filterSlugsToDir(this.allSlugs, directory);
   }

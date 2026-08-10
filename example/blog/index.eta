@@ -3,6 +3,6 @@
 <h1>Blog <%= it.name %></h1>
 <ul>
 <% it.context.htmlSlugsInDirectory("/blog/").forEach(function(slug){ %>
-  <li><a href="<%= slug %>"><%= slug %></a></li>
+  <li><a href="<%= slug %>"><%= slug %></a><span><%= it.context.getFileFromSlug(slug).transformations.previewText%></span></li>
 <% }) %>
 </ul>
