@@ -5,6 +5,8 @@ import { log } from "../functional/log";
 import { Sourcer } from "../sourcers/sourcer";
 import { Transformer } from "../transformers/transformer";
 import { PipelineContext } from "./pipelineContext";
+import { CONFIG_FILE_NAME, loadConfig } from "../config/loadConfig";
+import path from "path";
 
 type PipelineItem = {
   run: (files: SsgFile[]) => Promise<SsgFile[]>;
@@ -16,7 +18,10 @@ export class Pipeline {
   context: PipelineContext;
   isDebugEnabled: boolean = false;
 
-  constructor(siteUrl: URL) {
+  constructor(
+    siteUrl: URL,
+    private configPath: string | undefined,
+  ) {
     this.context = new PipelineContext(siteUrl, this);
   }
 
@@ -122,7 +127,7 @@ export class Pipeline {
   }
 
   copy(): Pipeline {
-    const pipeline = new Pipeline(this.context.siteUrl);
+    const pipeline = new Pipeline(this.context.siteUrl, this.configPath);
     // We should probably properly clone these items and the
     // definitions. Right now it should be fine since the
     // items don't maintain their own state though.
@@ -157,8 +162,20 @@ export class Pipeline {
     console.log(message);
   }
 
+  private async loadConfig() {
+    const configPath = path.resolve(
+      process.cwd(),
+      this.configPath ?? CONFIG_FILE_NAME,
+    );
+    return await loadConfig(configPath);
+  }
+
   async run(): Promise<SsgFile[]> {
     this.logDebugMessage(`Pipeline starting. ${this.items.length} steps.`);
+
+    const config = await this.loadConfig();
+
+    this.context.siteUrl = new URL(config.devServer.url);
 
     let files: SsgFile[] = [];
 

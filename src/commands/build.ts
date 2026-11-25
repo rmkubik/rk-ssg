@@ -1,5 +1,5 @@
-import { Directory } from "cmd-ts/batteries/fs";
-import { command, option, positional, string } from "cmd-ts";
+import { Directory, File } from "cmd-ts/batteries/fs";
+import { command, option, optional, positional, string } from "cmd-ts";
 import { createBuildPipeline } from "../pipeline/createBuildPipeline";
 
 export const build = command({
@@ -14,9 +14,14 @@ export const build = command({
       long: "outdir",
       short: "o",
     }),
+    configPath: option({
+      // TODO: Not sure if this will work since I'm resolving relative path in my loadConfig function
+      type: optional(File),
+      long: "config",
+    }),
   },
-  handler: async ({ targetDirectory, outDir }) => {
-    const pipeline = createBuildPipeline(targetDirectory, outDir);
+  handler: async ({ targetDirectory, outDir, configPath }) => {
+    const pipeline = createBuildPipeline(targetDirectory, outDir, configPath);
 
     await pipeline.run();
   },

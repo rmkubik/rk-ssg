@@ -1,5 +1,5 @@
-import { Directory } from "cmd-ts/batteries/fs";
-import { command, option, positional, string } from "cmd-ts";
+import { Directory, File } from "cmd-ts/batteries/fs";
+import { command, option, optional, positional, string } from "cmd-ts";
 import { createBuildPipeline } from "../pipeline/createBuildPipeline";
 import express, { NextFunction, Request, Response } from "express";
 import chokidar from "chokidar";
@@ -180,12 +180,17 @@ export const serve = command({
       long: "outdir",
       short: "o",
     }),
+    configPath: option({
+      // TODO: Not sure if this will work since I'm resolving relative path in my loadConfig function
+      type: optional(File),
+      long: "config",
+    }),
   },
-  handler: async ({ targetDirectory, outDir }) => {
+  handler: async ({ targetDirectory, outDir, configPath }) => {
     const { wss } = createApp(outDir);
 
     watch(targetDirectory, async (event: EventName, path: string) => {
-      const pipeline = createBuildPipeline(targetDirectory, outDir);
+      const pipeline = createBuildPipeline(targetDirectory, outDir, configPath);
 
       console.log("Running build pipeline");
       await pipeline.run();

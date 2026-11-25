@@ -23,6 +23,7 @@ import { HtmlTextPreview } from "../transformers/HtmlTextPreview";
 export function createBuildPipeline(
   targetDirectory: string,
   outputDirectory: string,
+  configPath: string | undefined,
 ) {
   return (
     /**
@@ -32,7 +33,7 @@ export function createBuildPipeline(
      *
      * This would be more useful if it were configurable by an end user.
      */
-    new Pipeline(new URL("http://localhost:3000"))
+    new Pipeline(new URL("http://localhost:3000"), configPath)
       .source(new DirectoryCrawler({ directory: targetDirectory }))
       // I'm not fully sure if it is more appropriate to just leave /post/index.html
       // files like this or collapse them into /post.html... I guess it will depend on
