@@ -2,7 +2,6 @@ import { z } from "zod";
 import { pathToFileURL } from "node:url";
 
 export const ConfigSchema = z.object({
-  outdir: z.string().default("dist"),
   devServer: z
     .object({
       url: z.string().default("http://localhost:3000"),
