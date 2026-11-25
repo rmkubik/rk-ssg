@@ -45,7 +45,7 @@ export function createBuildPipeline(
       // Track which files are _template.eta
       .transform(new IdentifyEtaTemplates())
       // Find _template.eta files for each file that might use a template
-      .transform(new FindEtaTemplate())
+      .transform(new FindEtaTemplate(targetDirectory))
       /**
        * Track which files are eta view files.
        *

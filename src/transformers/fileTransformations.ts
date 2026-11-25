@@ -16,6 +16,7 @@ export class FileTransformations {
   matter?: FrontMatter;
   isEtaTemplate?: boolean;
   isEtaView?: boolean;
+  isEtaComponentHandler?: boolean;
   etaTemplate?: string;
   // Override default output basename
   baseName?: string;
