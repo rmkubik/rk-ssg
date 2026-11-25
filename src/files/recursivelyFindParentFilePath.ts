@@ -6,10 +6,6 @@ export async function recursivelyFindParentFilePath(
   startingDir: string,
   boundaryDir: string,
 ): Promise<string | undefined> {
-  console.log(startingDir, boundaryDir);
-  // look for a file named targetFile
-  // start at the startingPath file
-  // recurse upward until you find the path or hit the boundary path
   const dirContents = await fs.readdir(startingDir);
   if (dirContents.includes(targetFile)) {
     return path.join(startingDir, targetFile);

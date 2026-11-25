@@ -16,6 +16,8 @@ It would be cool to have <custom-element>custom content</custom-element>. 2
 
 And probably eta.js here as well: {{= it.name }} 2
 
+This code block will use the code component since it has a \_components directory:
+
 ```ts
 const typescript = code("string");
 typescript.eval();

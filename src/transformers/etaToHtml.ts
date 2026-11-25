@@ -27,7 +27,8 @@ export class EtaToHtml extends Transformer {
        *
        * This is done so that etaTemplates themselves are not parsed by themselves.
        */
-      !file.transformations.isEtaTemplate
+      !file.transformations.isEtaTemplate &&
+      !file.transformations.isComponentHandler
     );
   }
 

@@ -19,6 +19,11 @@ import { EmitRssFeed } from "../emitters/emitRssFeed";
 import { URL } from "url";
 import { ComputeReadingTime } from "../transformers/computeReadingTime";
 import { HtmlTextPreview } from "../transformers/HtmlTextPreview";
+import {
+  COMPONENT_HANDLERS_GLOB,
+  IdentifyComponentHandlers,
+} from "../transformers/IdentifyComponentHandlers";
+import { FindComponentHandlers } from "../transformers/FindComponentHandlers";
 
 export function createBuildPipeline(
   targetDirectory: string,
@@ -55,6 +60,9 @@ export function createBuildPipeline(
       .transform(new IdentifyEtaViews("views/**/*.*"))
       // Mark eta view files as not being emitted
       .transform(new DoNotEmitMatchingFiles("views/**/*.*"))
+      .transform(new IdentifyComponentHandlers())
+      .transform(new DoNotEmitMatchingFiles(COMPONENT_HANDLERS_GLOB))
+      .transform(new FindComponentHandlers(targetDirectory))
       // Add reading time info to file transformation
       .transform(new ComputeReadingTime())
       // This needs to be applied after all htmlContent generating transformations

@@ -1,0 +1,2 @@
+<div>lang: <%= it.node.lang %></div>
+<pre><%= it.node.value %></pre>

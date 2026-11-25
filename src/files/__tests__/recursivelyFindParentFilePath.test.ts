@@ -105,6 +105,25 @@ describe("recursivelyFindParentFilePath", () => {
     expect(result).toBe(undefined);
     // Lower timeout since we're expecting an inf loop in the fail case
   }, 2000);
+
+  it("can find a directory", async () => {
+    await writeTree(rootPath, {
+      a: {
+        b: {
+          c: {},
+        },
+        targetDir: {},
+      },
+    });
+
+    const filePath = await recursivelyFindParentFilePath(
+      "targetDir",
+      path.join(rootPath, "a", "b", "c"),
+      rootPath,
+    );
+
+    expect(filePath).toBe(path.join(rootPath, "a", "targetDir"));
+  });
 });
 
 async function createTempDir() {

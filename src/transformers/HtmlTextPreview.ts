@@ -41,7 +41,10 @@ export class HtmlTextPreview extends Transformer {
    * but I'm not going to do that now.
    */
   filter(file: SsgFile): boolean {
-    return file.isHtml || file.source.extension === ".md";
+    return (
+      (file.isHtml && !file.transformations.isComponentHandler) ||
+      file.source.extension === ".md"
+    );
   }
 
   async transform(files: SsgFile[], context: PipelineContext): Promise<void> {
